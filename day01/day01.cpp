@@ -23,7 +23,7 @@ int d01pt1(const filesystem::path& file_path) {
     vector<int> right;
 
     for (auto line : lines) {
-        auto l_r = split_regex(line);
+        auto l_r = split(line, "   ");
         left.push_back(stoi(l_r[0]));
         right.push_back(stoi(l_r[1]));
     }
@@ -47,13 +47,10 @@ int d01pt2(const filesystem::path& file_path) {
     vector<int> right;
 
     for (auto line : lines) {
-        auto l_r = split_regex(line);
+        auto l_r = split(line, "   ");
         left.push_back(stoi(l_r[0]));
         right.push_back(stoi(l_r[1]));
     }
-
-    sort(left.begin(), left.end());
-    sort(right.begin(), right.end());
 
     for (auto l : left) {
         for (auto r : right) {

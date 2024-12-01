@@ -93,7 +93,7 @@ inline auto time_function(Func func, Args&&... args) {
     auto end = std::chrono::high_resolution_clock::now();
     
     std::chrono::duration<double> dur = end - start;
-    std::cout << dur.count() << " ms" << std::endl;
+    std::cout << dur.count() * 1000 << " ms" << std::endl;
     return ret;
 }
 
