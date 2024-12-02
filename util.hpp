@@ -10,6 +10,7 @@
 #include <fstream>
 #include <regex>
 #include <algorithm>
+#include <cstdint>
 
 inline std::vector<std::string> read_lines(const std::filesystem::path& filepath) {
     std::vector<std::string> lines;
@@ -35,17 +36,18 @@ inline std::vector<std::string> read_lines(const std::filesystem::path& filepath
     return lines;
 }
 
-inline std::vector<int> convert_to_int(const std::vector<std::string>& number_strings) {
-    std::vector<int> numbers;
-    std::transform(number_strings.begin(), number_strings.end(), std::back_inserter(numbers), [](const std::string& nst) {return stoi(nst); });
+inline std::vector<std::int64_t> convert_to_int64(const std::vector<std::string>& number_strings) {
+    std::vector<std::int64_t> numbers;
+    std::transform(number_strings.begin(), number_strings.end(), std::back_inserter(numbers), [](const std::string& nst) {return stoll(nst); });
     return numbers;
 }
 
-inline std::vector<long> convert_to_long(const std::vector<std::string>& number_strings) {
-    std::vector<long> numbers;
+inline std::vector<std::int32_t> convert_to_int32(const std::vector<std::string>& number_strings) {
+    std::vector<std::int32_t> numbers;
     std::transform(number_strings.begin(), number_strings.end(), std::back_inserter(numbers), [](const std::string& nst) {return stol(nst); });
     return numbers;
 }
+
 
 inline bool contains_substr(const std::string& target, const std::string& sub) {
     bool found = target.find(sub) != std::string::npos;
