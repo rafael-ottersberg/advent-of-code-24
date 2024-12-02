@@ -10,13 +10,14 @@
 #include <numeric>
 
 #include "util.hpp"
+#include "gfx/timsort.hpp"
 
 using namespace std;
 
 
 int d01pt1(const filesystem::path& file_path) {
     //cout << endl << "Day 01 - Pt1: " << file_path.filename() << endl;
-    auto lines = read_lines(file_path);
+    const auto lines = read_lines(file_path);
     int result = 0;
 
     vector<int> left;
@@ -28,8 +29,8 @@ int d01pt1(const filesystem::path& file_path) {
         right.push_back(stoi(l_r[1]));
     }
 
-    sort(left.begin(), left.end());
-    sort(right.begin(), right.end());
+    gfx::timsort(left.begin(), left.end());
+    gfx::timsort(right.begin(), right.end());
 
     for (int i = 0; i < left.size(); i++) {
         result += abs(left[i] - right[i]);

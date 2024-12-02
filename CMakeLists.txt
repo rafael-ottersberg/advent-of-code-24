@@ -28,15 +28,19 @@ find_package(TBB REQUIRED)
 
 include_directories(
     ${CMAKE_CURRENT_SOURCE_DIR}
+    ${CMAKE_CURRENT_SOURCE_DIR}/external/cpp-TimSort/include/
 )
 
 add_executable(aoc24 main.cpp)
 target_link_libraries( 
     aoc24
     PRIVATE
+    day01
     day02
+    gfx::timsort
 )
 
 
 add_subdirectory(day01)
 add_subdirectory(day02)
+add_subdirectory(external/cpp-TimSort)

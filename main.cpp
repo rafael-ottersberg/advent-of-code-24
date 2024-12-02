@@ -2,6 +2,8 @@
 #include <iostream>
 #include <filesystem>
 #include "util.hpp"
+
+#include "day01/day01.hpp"
 #include "day02/day02.hpp"
 
 int main() {
