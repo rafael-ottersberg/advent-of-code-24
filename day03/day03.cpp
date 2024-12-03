@@ -17,11 +17,11 @@ using namespace std;
 
 
 int64_t d03pt1(const filesystem::path& file_path) {
-    cout << endl << "Day 03 - Pt1: " << file_path.filename() << endl;
+    //cout << endl << "Day 03 - Pt1: " << file_path.filename() << endl;
     auto lines = read_lines(file_path);
     int result = 0;
 
-    regex r("mul\\(([0-9]+),([0-9]+)\\)");
+    regex r(R"(mul\(([0-9]+),([0-9]+)\))");
     smatch m;
 
     bool enabled = true;
@@ -39,11 +39,11 @@ int64_t d03pt1(const filesystem::path& file_path) {
 }
 
 int64_t d03pt2(const filesystem::path& file_path) {
-    cout << endl << "Day 03 - Pt2: " << file_path.filename() << endl;
+    //cout << endl << "Day 03 - Pt2: " << file_path.filename() << endl;
     auto lines = read_lines(file_path);
     int result = 0;
 
-    regex r("mul\\(([0-9]+),([0-9]+)\\)|do\\(\\)|don't\\(\\)");
+    regex r(R"(mul\(([0-9]+),([0-9]+)\)|do\(\)|don't\(\))");
     smatch m;
 
     bool enabled = true;
