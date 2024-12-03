@@ -34,9 +34,10 @@ add_executable(aoc24 main.cpp)
 target_link_libraries( 
     aoc24
     PRIVATE
-    day02
+    day03
 )
 
 
 add_subdirectory(day01)
 add_subdirectory(day02)
+add_subdirectory(day03)
