@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.29)
+cmake_minimum_required(VERSION 3.16)
 
 # Activate Sie Hot Reload for MSVC-Compiler.
 if (POLICY CMP0141)

@@ -5,7 +5,7 @@
 #include "day04/day04.hpp"
 
 int main() {
-    auto aoc_path = std::filesystem::path("C:\\Users\\ro22p291\\code\\advent-of-code-24\\"); // change on different machine
+    auto aoc_path = std::filesystem::path("/home/rafael/advent-of-code-24"); // change on different machine
 
     auto folder_path = aoc_path / "day04";
 
