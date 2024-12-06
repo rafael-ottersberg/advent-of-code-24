@@ -8,7 +8,6 @@ sys.path.append(parent_directory)
 import helper
 
 def turn_right(direction):
-    dx, dy = direction
     if direction == (-1,0):
         return (0,1)
     if direction == (0,1):
