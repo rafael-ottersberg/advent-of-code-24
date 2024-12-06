@@ -35,7 +35,6 @@ struct page {
 
 unordered_map<int, vector<int>> page::order_graph;
 
-
 int64_t d05pt1(const filesystem::path& file_path) {
     auto lines = read_lines(file_path);
     int result = 0;

@@ -53,7 +53,6 @@ int64_t d02pt1(const filesystem::path& file_path) {
         if (p || n) {
             result++;
         }
-
     }
     return result;
 }

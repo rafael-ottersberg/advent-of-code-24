@@ -36,32 +36,6 @@ inline std::vector<std::string> read_lines(const std::filesystem::path& filepath
     return lines;
 }
 
-inline std::vector<std::u16string> read_lines_u16(const std::filesystem::path& filepath) {
-    std::vector<std::u16string> lines;
-
-    // Open the file with wide character stream
-    std::wifstream file(filepath, std::ios::binary);
-    file.imbue(std::locale(file.getloc(), new std::codecvt_utf16<wchar_t, 0x10ffff, std::little_endian>));
-
-    if (!file.is_open()) {
-        std::cerr << "Failed to open file: " << filepath << std::endl;
-        return lines;
-    }
-
-    std::wstring line;
-    while (std::getline(file, line)) {
-        lines.push_back(std::u16string(line.begin(), line.end()));
-    }
-
-    file.close();
-
-    if (!lines.empty() && lines.back().empty()) {
-        lines.pop_back();
-    }
-
-    return lines;
-}
-
 inline std::vector<std::int64_t> convert_to_int64(const std::vector<std::string>& number_strings) {
     std::vector<std::int64_t> numbers;
     std::transform(number_strings.begin(), number_strings.end(), std::back_inserter(numbers), [](const std::string& nst) {return stoll(nst); });
