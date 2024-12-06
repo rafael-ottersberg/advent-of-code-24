@@ -89,8 +89,6 @@ bool d2_substring(const vector<string>& lines, string& sub, const int32_t& i, co
     }
 }
 
-
-
 int64_t d04pt1(const filesystem::path& file_path) {
     auto lines = read_lines(file_path);
     int result = 0;
