@@ -15,7 +15,7 @@
 
 using namespace std;
 
-int64_t d03pt1(const filesystem::path& file_path) {
+int64_t d0pt1(const filesystem::path& file_path) {
     auto lines = read_lines(file_path);
     int result = 0;
 
@@ -25,7 +25,7 @@ int64_t d03pt1(const filesystem::path& file_path) {
     return result;
 }
 
-int64_t d03pt2(const filesystem::path& file_path) {
+int64_t d0pt2(const filesystem::path& file_path) {
     auto lines = read_lines(file_path);
     int result = 0;
 

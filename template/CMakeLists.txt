@@ -1,5 +1,5 @@
-add_library( day04 day04.cpp)
+add_library( day0 day0.cpp)
 
-target_include_directories(day04 PRIVATE ${CMAKE_CURRENT_LIST_DIR})
+target_include_directories(day0 PRIVATE ${CMAKE_CURRENT_LIST_DIR})
 
-target_link_libraries( day04 TBB::tbb )
+target_link_libraries( day0 TBB::tbb )

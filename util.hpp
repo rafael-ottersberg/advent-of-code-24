@@ -88,6 +88,11 @@ inline std::vector<std::string> split_regex(const std::string& line, const std::
     return splitted;
 }
 
+inline bool is_on_grid(int i, int j, const std::vector<std::string>& lines) {
+    return i >= 0 && i < static_cast<int>(lines.size()) &&
+           j >= 0 && j < static_cast<int>(lines[i].size());
+}
+
 template<typename Func, typename... Args>
 inline auto time_function(Func func, Args&&... args) {
     auto start = std::chrono::high_resolution_clock::now();
@@ -103,22 +108,15 @@ inline void hash_combine(std::size_t& seed, std::size_t value) {
     seed ^= value + 0x9e3779b9 + (seed << 6) + (seed >> 2);
 }
 
-struct tup2_hash {
+struct pair_hash {
     template <typename T1, typename T2>
-    size_t operator()(const std::tuple<T1, T2>& t) const {
-        auto h1 = std::hash<T1>{}(std::get<0>(t));
-        auto h2 = std::hash<T2>{}(std::get<1>(t));
+    size_t operator()(const std::pair<T1, T2>& t) const {
+        auto h1 = std::hash<T1>{}(t.first);
+        auto h2 = std::hash<T2>{}(t.second);
         size_t seed = 0;
         hash_combine(seed, h1);
         hash_combine(seed, h2);
         return seed;
-    }
-};
-
-struct tup2_equal {
-    template <typename T1, typename T2>
-    bool operator()(const std::tuple<T1, T2>& t1, const std::tuple<T1, T2>& t2) const {
-        return std::get<0>(t1) == std::get<0>(t2) && std::get<1>(t1) == std::get<1>(t2);
     }
 };
 
