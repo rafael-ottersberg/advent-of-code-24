@@ -24,7 +24,6 @@ int64_t d03pt1(const filesystem::path& file_path) {
     regex r(R"(mul\(([0-9]+),([0-9]+)\))");
     smatch m;
 
-    bool enabled = true;
     for (auto line : lines) {
         string::const_iterator searchStart(line.cbegin());
 
@@ -32,8 +31,6 @@ int64_t d03pt1(const filesystem::path& file_path) {
             result += stoi(m[1]) * stoi(m[2]);
             searchStart = m.suffix().first;
         }
-        
-
     }
     return result;
 }

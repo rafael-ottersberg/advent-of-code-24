@@ -31,7 +31,7 @@ int d01pt1(const filesystem::path& file_path) {
     sort(left.begin(), left.end());
     sort(right.begin(), right.end());
 
-    for (int i = 0; i < left.size(); i++) {
+    for (size_t i = 0; i < left.size(); i++) {
         result += abs(left[i] - right[i]);
     }
 

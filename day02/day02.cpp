@@ -16,7 +16,7 @@ using namespace std;
 
 
 bool check_series(const vector<int>& li, int depth, int threshold) {
-    for (int i = 1; i < li.size(); i++) {
+    for (size_t i = 1; i < li.size(); i++) {
         int diff = li[i] - li[i - 1];
         if ((0 < diff) && (diff < 4)) {
             continue;
