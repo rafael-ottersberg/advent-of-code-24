@@ -59,12 +59,14 @@ bool calc2(int64_t inter, const int64_t& result, deque<int64_t> numbers, char op
             calc2(inter1, result, numbers, '+') || 
             calc2(inter1, result, numbers, '*') || 
             calc2(inter1, result, numbers, '|') );
+
     } else if (oper == '*') {
         auto inter2 = inter * nr;
         return (
             calc2(inter2, result, numbers, '+') || 
             calc2(inter2, result, numbers, '*') ||
             calc2(inter2, result, numbers, '|') );
+            
     } else {
         auto inter3 = stoll(to_string(inter) + to_string(nr));
         return (
