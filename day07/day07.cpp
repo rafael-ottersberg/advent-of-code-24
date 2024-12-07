@@ -17,6 +17,10 @@
 using namespace std;
 
 bool calc(int64_t inter, const int64_t& result, deque<int64_t> numbers, char oper) {
+    // optimization
+    if (inter > result) {
+        return false;
+    }
     if (numbers.empty()) {
         if (inter == result) {
             return true;
@@ -36,6 +40,10 @@ bool calc(int64_t inter, const int64_t& result, deque<int64_t> numbers, char ope
 }
 
 bool calc2(int64_t inter, const int64_t& result, deque<int64_t> numbers, char oper) {
+    // optimization
+    if (inter > result) {
+        return false;
+    }
     if (numbers.empty()) {
         if (inter == result) {
             return true;
