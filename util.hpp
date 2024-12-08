@@ -113,7 +113,7 @@ inline auto time_function(Func func, Args&&... args) {
     std::cout << std::fixed << std::setprecision(2);
         std::cout << d << " s" << std::endl;
     } else if (d * 1e3f >= 1.0f) {
-        std::cout << std::fixed << std::setprecision(0);
+        std::cout << std::fixed << std::setprecision(1);
         std::cout << d * 1e3f << " ms" << std::endl;
     } else {
         std::cout << std::fixed << std::setprecision(0);
