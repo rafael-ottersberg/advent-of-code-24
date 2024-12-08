@@ -78,8 +78,7 @@ int64_t d08pt2(const filesystem::path& file_path) {
                     continue;
                 } else {
                     auto d = p2 - p1;
-
-                    
+                                        
                     int i = 0;
                     while (true){
                         auto t = p1 - i * d;

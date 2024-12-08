@@ -107,7 +107,15 @@ inline auto time_function(Func func, Args&&... args) {
     auto end = std::chrono::high_resolution_clock::now();
     
     std::chrono::duration<double> dur = end - start;
-    std::cout << dur.count() * 1000 << " ms" << std::endl;
+    float d = dur.count();
+    std::cout << std::fixed << std::setprecision(2);
+    if (d >= 1.0f) {
+        std::cout << d << " s" << std::endl;
+    } else if (d * 1e3f >= 1.0f) {
+        std::cout << d * 1e3f << " ms" << std::endl;
+    } else {
+        std::cout << d * 1e6f << " us" << std::endl;
+    }
     return ret;
 }
 
