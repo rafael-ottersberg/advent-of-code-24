@@ -88,16 +88,18 @@ inline std::vector<std::string> split_regex(const std::string& line, const std::
     return splitted;
 }
 
-inline bool is_on_grid(int i, int j, const std::vector<std::string>& lines) {
-    return i >= 0 && i < static_cast<int>(lines.size()) &&
-           j >= 0 && j < static_cast<int>(lines[i].size());
+template <typename T, typename U>
+inline bool is_on_grid(T i, U j, const std::vector<std::string>& lines) {
+    return i >= 0 && i < static_cast<T>(lines.size()) &&
+           j >= 0 && j < static_cast<U>(lines[i].size());
 }
 
-inline bool is_on_grid(std::pair<int,int> coor, const std::vector<std::string>& lines) {
+template <typename T, typename U>
+inline bool is_on_grid(std::pair<T,U> coor, const std::vector<std::string>& lines) {
     auto i = coor.first;
     auto j = coor.second;
-    return i >= 0 && i < static_cast<int>(lines.size()) &&
-           j >= 0 && j < static_cast<int>(lines[i].size());
+    return i >= 0 && i < static_cast<T>(lines.size()) &&
+           j >= 0 && j < static_cast<U>(lines[i].size());
 }
 
 template<typename Func, typename... Args>
