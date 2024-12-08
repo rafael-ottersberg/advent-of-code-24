@@ -93,6 +93,13 @@ inline bool is_on_grid(int i, int j, const std::vector<std::string>& lines) {
            j >= 0 && j < static_cast<int>(lines[i].size());
 }
 
+inline bool is_on_grid(std::pair<int,int> coor, const std::vector<std::string>& lines) {
+    auto i = coor.first;
+    auto j = coor.second;
+    return i >= 0 && i < static_cast<int>(lines.size()) &&
+           j >= 0 && j < static_cast<int>(lines[i].size());
+}
+
 template<typename Func, typename... Args>
 inline auto time_function(Func func, Args&&... args) {
     auto start = std::chrono::high_resolution_clock::now();
@@ -119,5 +126,20 @@ struct pair_hash {
         return seed;
     }
 };
+
+template <typename T,typename U>                                                   
+std::pair<T,U> operator+(const std::pair<T,U> & l,const std::pair<T,U> & r) {   
+    return {l.first+r.first,l.second+r.second};                                    
+}
+
+template <typename T,typename U>                                                   
+std::pair<T,U> operator-(const std::pair<T,U> & l,const std::pair<T,U> & r) {   
+    return {l.first-r.first,l.second-r.second};
+}
+
+template <typename T,typename U, typename V>                                                   
+std::pair<T,U> operator*(const V& l,const std::pair<T,U> & r) {   
+    return {l * r.first, l * r.second};
+}    
 
 #endif //UTIL_H
