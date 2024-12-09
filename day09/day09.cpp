@@ -63,8 +63,8 @@ int64_t d09pt1(const filesystem::path& file_path) {
 }
 
 struct file {
-    short id;
-    int size;
+    int16_t id;
+    int32_t size;
 };
 
 int64_t d09pt2(const filesystem::path& file_path) {
@@ -72,12 +72,12 @@ int64_t d09pt2(const filesystem::path& file_path) {
     int64_t result = 0;
 
     bool em = false;
-    short file_index = 0;
+    int16_t file_index = 0;
     vector<file> filesystem;
 
     for (char c : line) {
-        int file_size = c - '0';
-        short ind = file_index;
+        int32_t file_size = c - '0';
+        int16_t ind = file_index;
         if (em) {
             ind = -1;
             em = false;
@@ -101,7 +101,7 @@ int64_t d09pt2(const filesystem::path& file_path) {
             *rit = {-1, file.size};
             auto d = distance(it, rit.base());
             if (target.size > file.size) {
-                it = filesystem.insert(it+1, {-1, target.size-file . size});
+                it = filesystem.insert(it+1, {-1, target.size - file.size});
                 rit = make_reverse_iterator(it + d);
             }
             break;
