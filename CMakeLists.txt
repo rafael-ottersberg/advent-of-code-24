@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.16)
 
-# Activate Sie Hot Reload for MSVC-Compiler.
+# Activate the Hot Reload for MSVC-Compiler.
 if (POLICY CMP0141)
   cmake_policy(SET CMP0141 NEW)
   set(CMAKE_MSVC_DEBUG_INFORMATION_FORMAT "$<IF:$<AND:$<C_COMPILER_ID:MSVC>,$<CXX_COMPILER_ID:MSVC>>,$<$<CONFIG:Debug,RelWithDebInfo>:EditAndContinue>,$<$<CONFIG:Debug,RelWithDebInfo>:ProgramDatabase>>")
@@ -34,7 +34,7 @@ add_executable(aoc24 main.cpp)
 target_link_libraries( 
     aoc24
     PRIVATE
-    day08
+    day09
 )
 
 #add_subdirectory(day01)
@@ -44,5 +44,6 @@ target_link_libraries(
 #add_subdirectory(day05)
 #add_subdirectory(day06)
 #add_subdirectory(day07)
-add_subdirectory(day08)
-add_subdirectory(template)
+#add_subdirectory(day08)
+add_subdirectory(day09)
+#add_subdirectory(template)
