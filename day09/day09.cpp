@@ -20,12 +20,12 @@ int64_t d09pt1(const filesystem::path& file_path) {
     int64_t result = 0;
 
     bool em = false;
-    int file_index = 0;
-    vector<int> filesystem;
+    short file_index = 0;
+    vector<short> filesystem;
 
     for (char c : line) {
         int file_size = c - '0';
-        int ind = file_index;
+        short ind = file_index;
         if (em) {
             ind = -1;
             em = false;
@@ -33,7 +33,7 @@ int64_t d09pt1(const filesystem::path& file_path) {
             em = true;
             file_index++;
         }
-        for (int j = 0; j < file_size; j++) {
+        for (short j = 0; j < file_size; j++) {
             filesystem.push_back(ind);
         }
     }
