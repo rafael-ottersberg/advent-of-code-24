@@ -153,6 +153,15 @@ std::pair<T,U> operator-(const std::pair<T,U> & l,const std::pair<T,U> & r) {
 template <typename T,typename U, typename V>                                                   
 std::pair<T,U> operator*(const V& l,const std::pair<T,U> & r) {   
     return {l * r.first, l * r.second};
-}    
+}
+
+template <typename T,typename U>
+inline int ipow(T base, U exp) {
+    T result = 1;
+    for (T i = 0; i < exp; ++i) {
+        result *= base;
+    }
+    return result;
+}
 
 #endif //UTIL_H
