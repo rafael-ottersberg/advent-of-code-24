@@ -6,7 +6,7 @@
 #include <thrust/unique.h>
 #include <thrust/remove.h>
 
-__device__ void int_to_string(int64_t value, char* str) {
+__device__ inline void int_to_string(int64_t value, char* str) {
     char* ptr = str;
     if (value == 0) {
         *ptr++ = '0';
@@ -32,7 +32,7 @@ __device__ void int_to_string(int64_t value, char* str) {
     *ptr = '\0';
 }
 
-__device__ int64_t string_to_int(const char* str) {
+__device__ inline int64_t string_to_int(const char* str) {
     int64_t result = 0;
     while (*str) {
         result = result * 10 + (*str - '0');
@@ -41,7 +41,7 @@ __device__ int64_t string_to_int(const char* str) {
     return result;
 }
 
-__device__ size_t cu_strlen(const char* str) {
+__device__ inline size_t cu_strlen(const char* str) {
     size_t len = 0;
     while (*str++) {
         len++;
@@ -49,7 +49,7 @@ __device__ size_t cu_strlen(const char* str) {
     return len;
 }
 
-__device__ int64_t concatenate_integers(int64_t a, int64_t b) {
+__device__ inline int64_t concatenate_integers(int64_t a, int64_t b) {
     char str[64] = {0}; // Initialize to ensure it's empty
     int_to_string(a, str);
     int_to_string(b, str + cu_strlen(str)); // Append b to the end of the string representation of a
@@ -66,22 +66,19 @@ struct is_zero
 };
 
 
+
 __global__ void calc_state_kernel(
     int32_t total_combinations, 
     int64_t* numbers, int32_t* cum_number_lengths,
     int64_t* results, int32_t* cum_combinations,
     int64_t* ret) {
+    
     int32_t idx_combination = blockIdx.x * blockDim.x + threadIdx.x;
-
-    if (idx_combination >= total_combinations) {
-        return;
-    }
+    if (idx_combination >= total_combinations) return;
 
     int32_t idx_line = 0;
     while(true) {
-        if (cum_combinations[idx_line] > idx_combination) {
-            break;
-        }
+        if (cum_combinations[idx_line] > idx_combination) break;
         idx_line++;
     }
 
@@ -181,57 +178,54 @@ __global__ void calc_state_kernel2(
     return;
 }
 
-template<typename T>
-T* copy_vector_to_gpu(const std::vector<T>& vec) {
-    thrust::device_vector<T> d_vec(vec);
-    return thrust::raw_pointer_cast(d_vec.data());
-}
-
 int64_t calc_states(
-    const std::vector<int64_t>& numbers, std::vector<int32_t>& number_lengths, 
-    const std::vector<int64_t>& results, std::vector<int32_t>& number_of_combinations,
+    const std::vector<int64_t>& numbers, std::vector<int32_t>& cum_number_lengths, 
+    const std::vector<int64_t>& results, std::vector<int32_t>& cum_number_of_combinations,
     int part) {
     
-    auto d_numbers_ptr = copy_vector_to_gpu(numbers);
+    // Copy data to device
+    thrust::device_vector<int64_t> d_numbers(numbers);
+    int64_t* d_numbers_ptr = thrust::raw_pointer_cast(d_numbers.data());
 
-    // cumulative sum of numbers length to get number offset from line idx
-    thrust::inclusive_scan(number_lengths.begin(), number_lengths.end(), number_lengths.begin());
-    thrust::device_vector<int32_t> d_number_lengths(number_lengths);
-    int32_t* d_number_lengths_ptr = thrust::raw_pointer_cast(d_number_lengths.data());
+    thrust::device_vector<int32_t> d_cum_number_lengths(cum_number_lengths);
+    int32_t* d_cum_number_lengths_ptr = thrust::raw_pointer_cast(d_cum_number_lengths.data());
     
-    // cumulative sum of number of combinations to get line idx from combination idx
-    thrust::inclusive_scan(number_of_combinations.begin(), number_of_combinations.end(), number_of_combinations.begin());
-    thrust::device_vector<int32_t> d_combinations(number_of_combinations);
-    int32_t* d_combinations_ptr = thrust::raw_pointer_cast(d_combinations.data());
-
+    thrust::device_vector<int32_t> d_cum_combinations(cum_number_of_combinations);
+    int32_t* d_cum_combinations_ptr = thrust::raw_pointer_cast(d_cum_combinations.data());
 
     thrust::device_vector<int64_t> d_results(results);
     int64_t* d_results_ptr = thrust::raw_pointer_cast(d_results.data());
 
     // get the number of threads launched
-    int64_t total_combinations = number_of_combinations.back();
+    int64_t total_combinations = cum_number_of_combinations.back();
 
     // prepare return vector
-    thrust::device_vector<int64_t> d_ret(total_combinations);
-    int64_t* d_ret_ptr = thrust::raw_pointer_cast(d_ret.data());
+    thrust::device_vector<int64_t> d_return(total_combinations);
+    int64_t* d_ret_ptr = thrust::raw_pointer_cast(d_return.data());
 
     int block_size = 1024;
     int grid_size = (total_combinations + block_size - 1) / block_size;
     if (part == 1) {
-        calc_state_kernel<<<grid_size, block_size>>>(total_combinations, d_numbers_ptr, d_number_lengths_ptr, d_results_ptr, d_combinations_ptr, d_ret_ptr);
+        calc_state_kernel<<<grid_size, block_size>>>(
+            total_combinations, 
+            d_numbers_ptr, d_cum_number_lengths_ptr, 
+            d_results_ptr, d_cum_combinations_ptr, d_ret_ptr);
     } else {
-        calc_state_kernel2<<<grid_size, block_size>>>(total_combinations, d_numbers_ptr, d_number_lengths_ptr, d_results_ptr, d_combinations_ptr, d_ret_ptr);
+        calc_state_kernel2<<<grid_size, block_size>>>(
+            total_combinations, 
+            d_numbers_ptr, d_cum_number_lengths_ptr, 
+            d_results_ptr, d_cum_combinations_ptr, d_ret_ptr);
     }
     cudaDeviceSynchronize();
     
     // Remove zeros
-    auto end = thrust::remove_if(d_ret.begin(), d_ret.end(), is_zero());
-    d_ret.erase(end, d_ret.end());
+    auto end = thrust::remove_if(d_return.begin(), d_return.end(), is_zero());
+    d_return.erase(end, d_return.end());
     // Remove duplicates
-    end = thrust::unique(d_ret.begin(), d_ret.end());
-    d_ret.erase(end, d_ret.end());
-
-    int64_t sum = thrust::reduce(d_ret.begin(), d_ret.end(), int64_t(0));
+    end = thrust::unique(d_return.begin(), d_return.end());
+    d_return.erase(end, d_return.end());
+    // Sum
+    int64_t sum = thrust::reduce(d_return.begin(), d_return.end(), int64_t(0));
 
     return sum;
 }
