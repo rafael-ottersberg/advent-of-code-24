@@ -7,7 +7,7 @@
 int main() {
     auto aoc_path = std::filesystem::path("/home/rafael/advent-of-code-24"); // change on different machine
 
-    auto folder_path = aoc_path / "day07";
+    auto folder_path = aoc_path / "day7";
 
     std::cout << "Pt 1:" << std::endl;
     std::cout << "CPU:" << std::endl;

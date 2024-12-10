@@ -102,6 +102,20 @@ inline bool is_on_grid(std::pair<T,U> coor, const std::vector<std::string>& line
            j >= 0 && j < static_cast<U>(lines[i].size());
 }
 
+template <typename T, typename U, typename V>
+inline bool is_on_grid(T i, U j, const std::vector<std::vector<V>>& lines) {
+    return i >= 0 && i < static_cast<T>(lines.size()) &&
+           j >= 0 && j < static_cast<U>(lines[i].size());
+}
+
+template <typename T, typename U, typename V>
+inline bool is_on_grid(std::pair<T,U> coor, const std::vector<std::vector<V>>& lines) {
+    auto i = coor.first;
+    auto j = coor.second;
+    return i >= 0 && i < static_cast<T>(lines.size()) &&
+           j >= 0 && j < static_cast<U>(lines[i].size());
+}
+
 template<typename Func, typename... Args>
 inline auto time_function(Func func, Args&&... args) {
     auto start = std::chrono::high_resolution_clock::now();
@@ -113,13 +127,13 @@ inline auto time_function(Func func, Args&&... args) {
     if (d >= 1.0f) {
         
     std::cout << std::fixed << std::setprecision(2);
-        std::cout << d << " s" << std::endl;
+        std::cout << d << " s / ";
     } else if (d * 1e3f >= 1.0f) {
         std::cout << std::fixed << std::setprecision(1);
-        std::cout << d * 1e3f << " ms" << std::endl;
+        std::cout << d * 1e3f << " ms / ";
     } else {
         std::cout << std::fixed << std::setprecision(0);
-        std::cout << d * 1e6f << " us" << std::endl;
+        std::cout << d * 1e6f << " us / ";
     }
     return ret;
 }
