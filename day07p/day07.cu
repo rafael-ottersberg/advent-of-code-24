@@ -181,12 +181,18 @@ __global__ void calc_state_kernel2(
     return;
 }
 
+template<typename T>
+T* copy_vector_to_gpu(const std::vector<T>& vec) {
+    thrust::device_vector<T> d_vec(vec);
+    return thrust::raw_pointer_cast(d_vec.data());
+}
+
 int64_t calc_states(
     const std::vector<int64_t>& numbers, std::vector<int32_t>& number_lengths, 
     const std::vector<int64_t>& results, std::vector<int32_t>& number_of_combinations,
     int part) {
-    thrust::device_vector<int64_t> d_numbers(numbers);
-    int64_t* d_numbers_ptr = thrust::raw_pointer_cast(d_numbers.data());
+    
+    auto d_numbers_ptr = copy_vector_to_gpu(numbers);
 
     // cumulative sum of numbers length to get number offset from line idx
     thrust::inclusive_scan(number_lengths.begin(), number_lengths.end(), number_lengths.begin());
