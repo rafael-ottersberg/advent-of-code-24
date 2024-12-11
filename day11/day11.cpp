@@ -17,7 +17,7 @@
 using namespace std;
 
 void split_number_in_middle(const int64_t& number, const int& digits, int64_t& left, int64_t& right) {
-    int64_t divisor = pow(10, digits / 2);
+    int64_t divisor = ipow(10, digits / 2);
     left = number / divisor;
     right = number % divisor;
 }
