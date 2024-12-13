@@ -5,7 +5,7 @@ import pathlib
 parent_directory = os.path.abspath('.')
 sys.path.append(parent_directory)
 
-import helper
+from helper import *
 
 def solution(input_file):
     result = 0
@@ -26,11 +26,11 @@ def solution2(input_file):
 if __name__ == '__main__':
     file_directory = pathlib.Path(__file__).parent.absolute()
     if 1: # run part 1
-        print(helper.benchmark(solution)(file_directory / 'test.txt'))
+        print(benchmark(solution)(file_directory / 'test.txt'))
         print('\n*******************************\n')
-        print(helper.benchmark(solution)(file_directory / 'input.txt'))
+        print(benchmark(solution)(file_directory / 'input.txt'))
     if 0: # run part 2
         print('\n----------------part2----------------\n')
-        print(helper.benchmark(solution2)(file_directory / 'test.txt'))
+        print(benchmark(solution2)(file_directory / 'test.txt'))
         print('\n*******************************\n')
-        print(helper.benchmark(solution2)(file_directory / 'input.txt'))
+        print(benchmark(solution2)(file_directory / 'input.txt'))
