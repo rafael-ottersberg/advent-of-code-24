@@ -10,10 +10,17 @@
 #include <numeric>
 #include <cstdint>
 #include <regex>
+#include <cmath>
 
 #include "util.hpp"
 
 using namespace std;
+
+void split_number_in_middle(const int64_t& number, const int& digits, int64_t& left, int64_t& right) {
+    int64_t divisor = ipow(10, digits / 2);
+    left = number / divisor;
+    right = number % divisor;
+}
 
 int64_t solve_number(int64_t number, int blinks, unordered_map<pair<int64_t, int>, int64_t, pair_hash>& cache) {
     if (blinks == 0) return 1;
@@ -30,12 +37,12 @@ int64_t solve_number(int64_t number, int blinks, unordered_map<pair<int64_t, int
         cache[p] = result;
         return result;
     } 
-    string n_str = to_string(number);
-    int l = n_str.size();
-    if (l % 2 == 0) {
-        int l_2 = l / 2;
-        int64_t n_left = stoll(n_str.substr(0, l_2));
-        int64_t n_right = stoll(n_str.substr(l_2, l_2));
+    int digits = log10(number) + 1;
+    if (digits % 2 == 0) {
+        int l_2 = digits / 2;
+        int64_t n_left;
+        int64_t n_right;
+        split_number_in_middle(number, digits, n_left, n_right);
         result = solve_number(n_left, blinks, cache) + solve_number(n_right, blinks, cache);
         cache[p] = result;
         return result;
