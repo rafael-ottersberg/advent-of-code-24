@@ -42,5 +42,7 @@ def main():
     print("Visited nodes and distances:", visited)
     print("Path:", path)
 
+
+
 if __name__ == "__main__":
     main()

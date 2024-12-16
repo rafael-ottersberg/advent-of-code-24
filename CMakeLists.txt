@@ -34,20 +34,56 @@ add_executable(aoc24 main.cpp)
 target_link_libraries( 
     aoc24
     PRIVATE
+    day01
+    day02
+    day03
+    day04
+    day05
+    day06
+    day07
+    day08
+    day09
+    day10
+    day11
     day12
+    day13
+    day14
+    day15
+    day16
+    day17
+    day18
+    day19
+    day20
+    day21
+    day22
+    day23
+    day24
+    day25
 )
 
-#add_subdirectory(day01)
-#add_subdirectory(day02)
-#add_subdirectory(day03)
-#add_subdirectory(day04)
-#add_subdirectory(day05)
-#add_subdirectory(day06)
-#add_subdirectory(day07)
-#add_subdirectory(day07p)
-#add_subdirectory(day08)
-#add_subdirectory(day09)
-#add_subdirectory(day10)
-#add_subdirectory(day11)
+add_subdirectory(day01)
+add_subdirectory(day02)
+add_subdirectory(day03)
+add_subdirectory(day04)
+add_subdirectory(day05)
+add_subdirectory(day06)
+add_subdirectory(day07)
+add_subdirectory(day08)
+add_subdirectory(day09)
+add_subdirectory(day10)
+add_subdirectory(day11)
 add_subdirectory(day12)
-#add_subdirectory(template)
+add_subdirectory(day13)
+add_subdirectory(day14)
+add_subdirectory(day15)
+add_subdirectory(day16)
+add_subdirectory(day17)
+add_subdirectory(day18)
+add_subdirectory(day19)
+add_subdirectory(day20)
+add_subdirectory(day21)
+add_subdirectory(day22)
+add_subdirectory(day23)
+add_subdirectory(day24)
+add_subdirectory(day25)
+add_subdirectory(template)
