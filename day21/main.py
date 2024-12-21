@@ -43,11 +43,9 @@ key_locations2 = [keys2[c] for c in keys2]
 def dist(p1, p2):
     return p2[0] - p1[0], p2[1] - p1[1]
 
-def make_instructions(inst_in, level, lp, cache, cache2):
-    if (inst_in, level, lp) in cache:
-        return cache[(inst_in, level, lp)]
-    if level == 2+20-1:
-        return inst_in
+def make_instructions(inst_in, level, lp, layers, cache):
+    if level == layers - 1:
+        return len(inst_in)
     
     if level == 0:
         kys = keys
@@ -57,10 +55,10 @@ def make_instructions(inst_in, level, lp, cache, cache2):
         ky_l = key_locations2
     
     lp = 'A'
-    ret_instr = ""
+    ret_size = 0
     for c in inst_in:
-        if (c, lp, level) in cache2:
-            ret_instr += cache2[(c, lp, level)]
+        if (c, lp, level) in cache:
+            ret_size += cache[(c, lp, level)]
             lp = c
             continue
 
@@ -76,8 +74,7 @@ def make_instructions(inst_in, level, lp, cache, cache2):
         c2 = (kys[lp][0], kys[lp][1] + dy)
 
         inst = ""
-        ret = None
-        ret2 = None
+        ret = float('inf')
         if c1 in ky_l:
             for _ in range(abs(dx)):
                 inst += dirs[(signx, 0)]
@@ -85,7 +82,7 @@ def make_instructions(inst_in, level, lp, cache, cache2):
                 inst += dirs[(0, signy)]
             inst += 'A'
             
-            ret = make_instructions(inst, level+1, lp, cache, cache2)
+            ret = min(ret, make_instructions(inst, level+1, lp, layers, cache))
         
         inst = ""
         if c2 in ky_l:
@@ -96,34 +93,29 @@ def make_instructions(inst_in, level, lp, cache, cache2):
 
             inst += 'A'
             
-            ret2 = make_instructions(inst, level+1, lp, cache, cache2)
+            ret = min(ret, make_instructions(inst, level+1, lp, layers, cache))
 
-        if ret is None:
-            ret = ret2
-        if ret2 is not None:
-            if len(ret2) < len(ret):
-                ret = ret2
+        ret = int(ret)
 
-        ret_instr += ret
-        cache2[(c, lp, level)] = ret
+        ret_size += ret
+        cache[(c, lp, level)] = ret
         lp = c
 
-    cache[(inst_in, level, lp)] = ret_instr
-    return ret_instr
+    return ret_size
 
 def solution(input_file):
     result = 0
     lines = open(input_file, 'r').read().splitlines()
 
+    layers = 2 + 2
+
     cache = {}
-    cache2 = {}
     for i, line in enumerate(lines):
         numbers = line[:3]
         numeric = int(numbers)
-        instructions = make_instructions(line, 0, "A", cache, cache2)
+        rs = make_instructions(line, 0, "A", layers, cache)
 
-        res = len(instructions) * numeric
-        print(len(instructions), numeric)
+        res = rs * numeric
         result += res
 
     return result
@@ -131,8 +123,17 @@ def solution(input_file):
 def solution2(input_file):
     result = 0
     lines = open(input_file, 'r').read().splitlines()
+
+    layers = 2 + 25
+
+    cache = {}
     for i, line in enumerate(lines):
-        pass
+        numbers = line[:3]
+        numeric = int(numbers)
+        rs = make_instructions(line, 0, "A", layers, cache)
+
+        res = rs * numeric
+        result += res
 
     return result
 
@@ -142,7 +143,7 @@ if __name__ == '__main__':
         print(benchmark(solution)(file_directory / 'test.txt'))
         print('\n*******************************\n')
         print(benchmark(solution)(file_directory / 'input.txt'))
-    if 0: # run part 2
+    if 1: # run part 2
         print('\n----------------part2----------------\n')
         print(benchmark(solution2)(file_directory / 'test.txt'))
         print('\n*******************************\n')
