@@ -58,40 +58,35 @@ def solution2(input_file):
         seller_prices.append(prices)
         seller_diffs.append(diffs)
 
-    result = 0
-    for a in range(-9, 10):
-        for b in range(-9, 10):
-            for c in range(-9, 10):
-                for d in range(-9, 10):
-                    gain = 0
-                    s = ""
-                    for n in [a,b,c,d]:
-                        if n >= 0:
-                            s += f"+{n}"
-                        else:
-                            s += str(n)
-                
-                    j = 0
-                    for diffs, prices in zip(seller_diffs, seller_prices):
-                        i = diffs.find(s, 1)
-                                                 
-                        if i != -1:
-                            i = i // 2 + 4
-                            gain += prices[i]
-                        j+=1
-                    
-                    if gain > result:
-                        result = gain
+    patterns = {}
+
+    for diffs, prices in zip(seller_diffs, seller_prices):
+        row = set()
+        for i in range(len(diffs) // 2 - 4):
+            s = diffs[2*i: 2*(i+4)]
+
+            if s in row:
+                continue
+            row.add(s)
+            
+            price = prices[i+4]
+            if s in patterns:
+                patterns[s] += price
+            else:
+                patterns[s] = price
+
+    for p in patterns:
+        result = max(result, patterns[p])
 
     return result
 
 if __name__ == '__main__':
     file_directory = pathlib.Path(__file__).parent.absolute()
-    if 1: # run part 1
+    if 0: # run part 1
         print(benchmark(solution)(file_directory / 'test.txt'))
         print('\n*******************************\n')
         print(benchmark(solution)(file_directory / 'input.txt'))
-    if 0: # run part 2
+    if 1: # run part 2
         print('\n----------------part2----------------\n')
         print(benchmark(solution2)(file_directory / 'test.txt'))
         print('\n*******************************\n')
