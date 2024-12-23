@@ -72,11 +72,10 @@ def solution2(input_file):
     for pc in pcs:
         for subset in powerset(connections[pc]):
             largest_net = set(subset)
-            print(f'initial {largest_net}')
+            largest_net.add(pc)
             for pc2 in subset:
                 largest_net = largest_net & connections[pc2]
-                print(f'after pc {pc2} with: {connections[pc2]}')
-                print(largest_net)
+                largest_net.add(pc2)
             
             if len(largest_net) > len_n:
                 len_n = len(largest_net)
@@ -89,7 +88,7 @@ def solution2(input_file):
 
 if __name__ == '__main__':
     file_directory = pathlib.Path(__file__).parent.absolute()
-    if 0: # run part 1
+    if 1: # run part 1
         print(benchmark(solution)(file_directory / 'test.txt'))
         print('\n*******************************\n')
         print(benchmark(solution)(file_directory / 'input.txt'))
@@ -97,4 +96,4 @@ if __name__ == '__main__':
         print('\n----------------part2----------------\n')
         print(benchmark(solution2)(file_directory / 'test.txt'))
         print('\n*******************************\n')
-        #print(benchmark(solution2)(file_directory / 'input.txt'))
+        print(benchmark(solution2)(file_directory / 'input.txt'))
