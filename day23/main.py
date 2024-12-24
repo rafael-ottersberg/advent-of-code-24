@@ -71,18 +71,18 @@ def solution2(input_file):
 
     for pc in pcs:
         for subset in powerset(connections[pc]):
-            largest_net = set(subset)
-            largest_net.add(pc)
+            largest_net = set(subset) | {pc}
             for pc2 in subset:
-                largest_net = largest_net & connections[pc2]
-                largest_net.add(pc2)
+                largest_net = largest_net & (connections[pc2] | {pc2})
             
             if len(largest_net) > len_n:
                 len_n = len(largest_net)
                 largest_n = largest_net
     
     net = sorted(list(largest_n))
-    print(largest_n)
+    result = ""
+    for n in net:
+        result += f'{}'
     return net
     
 
