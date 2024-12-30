@@ -1,6 +1,7 @@
 import heapq
 from collections import defaultdict
 import math
+from timeit import default_timer as timer
 
 def read_file_lines(file_name, strip_lines=False):
     with open(file_name, 'r') as f:
@@ -14,11 +15,10 @@ def read_file_lines(file_name, strip_lines=False):
     return lines
 
 def benchmark(func):
-    import time
     def wrapper(*args, **kwargs):
-        start = time.time()
+        start = timer()
         result = func(*args, **kwargs)
-        end = time.time()
+        end = timer()
 
         print(f'Function {func.__name__} took {(end-start)*1000:.4f}ms to complete.')
         return result
